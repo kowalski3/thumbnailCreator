@@ -1,7 +1,12 @@
 package main.view;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
 
 import processing.core.*;
 
@@ -10,7 +15,12 @@ import processing.core.*;
 public class ThumbnailCreatorViewer extends PApplet{
 	
 	PFont font;
-	
+	PImage imgMan1;
+	PImage imgMan2;
+	PImage imgMan3;
+	PImage imgWoman1;
+	PImage imgWoman2;
+	LinkedList<String> tracks = new LinkedList<String>();
 	
 	/*-----------------------------------------------------------------------------------------
 	 * Processing setup and draw methods
@@ -22,18 +32,41 @@ public class ThumbnailCreatorViewer extends PApplet{
 	  */
 	@Override
 	public void settings(){
-		size(300,300);	
+		size(200,200);	
 	}
 	
 	@Override
 	public void setup() {  
-		PFont font = createFont("helvetica",20);
-		textFont(font);
 		
+		loadTracks("C:/Julian/git/thumbnailCreator/data/tracks.csv");
+		
+		PFont font = createFont("C:/Julian/Helvetica.otf",20);
+		textFont(font);
+		imgMan1 = loadImage("C:/Julian/git/thumbnailCreator/img/man1.png");
+		imgMan2 = loadImage("C:/Julian/git/thumbnailCreator/img/man2.png");;
+		imgMan3 = loadImage("C:/Julian/git/thumbnailCreator/img/man3.png");;
+		imgWoman1 = loadImage("C:/Julian/git/thumbnailCreator/img/girl1.png");;
+		imgWoman2 = loadImage("C:/Julian/git/thumbnailCreator/img/girl2.png");;
 	
 	}
 		
-	 /**
+	 private void loadTracks(String filename) {
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			String line;
+			while((line = reader.readLine()) != null){
+				tracks.add(line);
+			}
+				
+		} catch (IOException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	/**
 	   * Processing draw method runs in a loop immediately after setup()
 	   */
 	@Override
@@ -42,32 +75,37 @@ public class ThumbnailCreatorViewer extends PApplet{
 		int r;
 		int g;
 		int b;
-		for(int i = 0; i <= 5; i++){
-			
+		
+		int i = 0;
+		for(String next: tracks){
+			String[] track = next.split(",");
 			
 			
 			r = colours[i % colours.length].getR();
 			g = colours[i % colours.length].getG();
 			b = colours[i % colours.length].getB();
 			
-			textSize(35);
+			textSize(20);
 			stroke(153);
 			textAlign(CENTER,CENTER);
 			background(r, g, b);
 			
-			fill(0,0,0);
-			text("Artist name",151,116); //artist
-			fill(255,255,255);
-			text("Artist name",150,115); //artist
+			image(imgMan1,0,0);
 			
 			fill(0,0,0);
-			text("Song title",151,166); //title
+			text(track[0],102,67); //artist
 			fill(255,255,255);
-			text("Song title",150,165); //title
+			text(track[0],100,65); //artist
+			
+			fill(0,0,0);
+			text(track[1],102,117); //title
+			fill(255,255,255);
+			text(track[1],100,115); //title
 			
 			
 			
 			save("C:/Julian/git/thumbnailCreator/output/test" + i + ".png");
+			i++;
 		}
 		noLoop();
 	}
