@@ -1,12 +1,14 @@
 package main.view;
 
 
+
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import processing.core.*;
 
@@ -20,7 +22,7 @@ public class ThumbnailCreatorViewer extends PApplet{
 	PImage imgMan3;
 	PImage imgWoman1;
 	PImage imgWoman2;
-	LinkedList<String> tracks = new LinkedList<String>();
+	List<String> tracks = new ArrayList<String>();
 	
 	/*-----------------------------------------------------------------------------------------
 	 * Processing setup and draw methods
@@ -65,6 +67,37 @@ public class ThumbnailCreatorViewer extends PApplet{
 		}
 		
 	}
+	 
+	 
+	/**
+	 * Takes a string and adds line breaks if over threshold
+	 * 
+	 * @param str
+	 * @return str
+	 */
+	private String prepString(String str){
+		List<String> list1 = new ArrayList<String> (Arrays.asList(str.split(" ")));
+		list1.add("");
+	
+		if(list1.size() > 5 && str.length() > 15){
+			//insert linebreak after second element
+			list1.add(3, "\n");
+			list1.add(6, "\n");
+		} else if (list1.size() > 3 && str.length() > 15){
+			list1.add(3, "\n");
+		}
+		
+		
+		StringBuilder strb = new StringBuilder();
+	
+		for(String s: list1){
+			strb.append(s + " ");	
+		}
+		return strb.toString().substring(0, strb.length() -2);
+	} 
+	 
+	 
+	 
 
 	/**
 	   * Processing draw method runs in a loop immediately after setup()
@@ -85,26 +118,29 @@ public class ThumbnailCreatorViewer extends PApplet{
 			g = colours[i % colours.length].getG();
 			b = colours[i % colours.length].getB();
 			
-			textSize(20);
+			String artistName = prepString(track[0]);
+			String trackName = prepString(track[1]);
+			
 			stroke(153);
 			textAlign(CENTER,CENTER);
 			background(r, g, b);
 			
 			image(imgMan1,0,0);
-			
+			textSize(22);
 			fill(0,0,0);
-			text(track[0],102,67); //artist
+			text(artistName,102,57); //artist
 			fill(255,255,255);
-			text(track[0],100,65); //artist
+			text(artistName,100,55); //artist
 			
+			textSize(18);
 			fill(0,0,0);
-			text(track[1],102,117); //title
+			text(trackName,102,127); //title
 			fill(255,255,255);
-			text(track[1],100,115); //title
+			text(trackName,100,125); //title
 			
 			
 			
-			save("C:/Julian/git/thumbnailCreator/output/test" + i + ".png");
+			save("C:/Julian/git/thumbnailCreator/output/" + artistName.replaceAll("[^a-zA-Z0-9]","") +"_"+ trackName.replaceAll("[^a-zA-Z0-9]","") + ".png");
 			i++;
 		}
 		noLoop();
