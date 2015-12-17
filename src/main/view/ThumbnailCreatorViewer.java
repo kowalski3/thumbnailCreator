@@ -20,8 +20,15 @@ public class ThumbnailCreatorViewer extends PApplet{
 	PImage imgMan1;
 	PImage imgMan2;
 	PImage imgMan3;
+	List<PImage> men = new ArrayList<PImage>();
+	
+	
+	
 	PImage imgWoman1;
 	PImage imgWoman2;
+	List<PImage> women = new ArrayList<PImage>();
+	
+	
 	List<String> tracks = new ArrayList<String>();
 	
 	/*-----------------------------------------------------------------------------------------
@@ -45,10 +52,16 @@ public class ThumbnailCreatorViewer extends PApplet{
 		PFont font = createFont("C:/Julian/Helvetica.otf",20);
 		textFont(font);
 		imgMan1 = loadImage("C:/Julian/git/thumbnailCreator/img/man1.png");
-		imgMan2 = loadImage("C:/Julian/git/thumbnailCreator/img/man2.png");;
-		imgMan3 = loadImage("C:/Julian/git/thumbnailCreator/img/man3.png");;
-		imgWoman1 = loadImage("C:/Julian/git/thumbnailCreator/img/girl1.png");;
-		imgWoman2 = loadImage("C:/Julian/git/thumbnailCreator/img/girl2.png");;
+		imgMan2 = loadImage("C:/Julian/git/thumbnailCreator/img/man2.png");
+		imgMan3 = loadImage("C:/Julian/git/thumbnailCreator/img/man3.png");
+		men.add(imgMan1);
+		men.add(imgMan2);
+		men.add(imgMan3);
+		
+		imgWoman1 = loadImage("C:/Julian/git/thumbnailCreator/img/girl1.png");
+		imgWoman2 = loadImage("C:/Julian/git/thumbnailCreator/img/girl2.png");
+		women.add(imgWoman1);
+		women.add(imgWoman2);
 	
 	}
 		
@@ -125,7 +138,13 @@ public class ThumbnailCreatorViewer extends PApplet{
 			textAlign(CENTER,CENTER);
 			background(r, g, b);
 			
-			image(imgMan1,0,0);
+			if(track[2].equals("MALE")) {
+				image(men.get(i % men.size()),0,0);	
+			} else{
+				image(women.get(i % women.size()),0,0);	
+			}
+			
+			
 			textSize(22);
 			fill(0,0,0);
 			text(artistName,102,57); //artist
