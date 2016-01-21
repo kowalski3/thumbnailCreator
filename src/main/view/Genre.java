@@ -1,0 +1,33 @@
+package main.view;
+
+public enum Genre {
+	broadway,
+	children,
+	christmas,
+	country,
+	dance,
+	disco,
+	duet,
+	eighties,
+	fifties,
+	folk,
+	funk,
+	indie,
+	irish,
+	metal,
+	nineties,
+	pop,
+	punk,
+	rap,
+	reggae,
+	religious,
+	rnb,
+	rock,
+	rocknroll,
+	seventies,
+	sixties,
+	swing,
+	tens,
+	twothousands,
+	transparent;
+}
