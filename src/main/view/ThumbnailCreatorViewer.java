@@ -123,7 +123,7 @@ public class ThumbnailCreatorViewer extends PApplet{
 		stroke(153);
 		textAlign(CENTER,CENTER);
 		
-		//PImage transparent = backgrounds.get(Genre.valueOf("transparent"));
+		PImage transparent = backgrounds.get(Genre.valueOf("transparent"));
 		for(String next: tracks){
 			clear();
 			String[] track = next.split("\t");	
@@ -134,18 +134,19 @@ public class ThumbnailCreatorViewer extends PApplet{
 			//bg image
 			image(backgrounds.get(genre),0,0);
 			tint(180,180);
-			//add transparent layer
 			//image(transparent ,0,0);
 			//icon
-			image(icons.get(genre),0,0);
+			PImage icon =icons.get(genre);
+			icon.resize(150, 150);
+			image(icons.get(genre),25,25);
 			
-			textSize(22);
+			textSize(20);
 			fill(0,0,0);
-			text(artistName,102,47); //artist
+			text(artistName,102,52); //artist
 			fill(255,255,255);
-			text(artistName,100,45); //artist
+			text(artistName,100,50); //artist
 			
-			textSize(22);
+			textSize(24);
 			fill(0,0,0);
 			text(trackName,102,137); //title
 			fill(255,255,255);
@@ -172,12 +173,13 @@ public class ThumbnailCreatorViewer extends PApplet{
 		List<String> list1 = new ArrayList<String> (Arrays.asList(str.split(" ")));
 		list1.add("");
 	
-		if(list1.size() > 5 && str.length() > 15){
+		if(list1.size() > 5 && str.length() > 10){
 			//insert linebreak after second element
-			list1.add(3, "\n");
-			list1.add(6, "\n");
-		} else if (list1.size() > 3 && str.length() > 15){
-			list1.add(3, "\n");
+			list1.add(2, "\n");
+			list1.add(5, "\n");
+			list1.add(8, "\n");
+		} else if (list1.size() > 2 && str.length() > 10){
+			list1.add(2, "\n");
 		}
 		
 		
