@@ -29,5 +29,13 @@ public enum Genre {
 	swing,
 	tens,
 	twothousands,
-	transparent;
+	transparent, //colours from here
+	violet,
+	purple,
+	blu,
+	green,
+	yellow,
+	orange,
+	red,
+	black;
 }

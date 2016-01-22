@@ -101,9 +101,6 @@ public class ThumbnailCreatorViewer extends PApplet{
 				 String fileNameSplit = next.getName().substring(0, next.getName().length()-4);
 				 icons.put(Genre.valueOf(fileNameSplit), loadImage(absFilePath));	
 			 }
-			 
-			
-			 
 		 } catch (IllegalArgumentException e){
 			 System.out.println(e);
 			 printExceptionToLogFile(e);
@@ -119,17 +116,23 @@ public class ThumbnailCreatorViewer extends PApplet{
 	
 	//Main process starts here
 	@Override
-	public void draw(){	
+	public void draw() throws IllegalArgumentException{	
 		stroke(153);
 		textAlign(CENTER,CENTER);
 		
-		PImage transparent = backgrounds.get(Genre.valueOf("transparent"));
+		//PImage transparent = backgrounds.get(Genre.valueOf("transparent"));
 		for(String next: tracks){
 			clear();
 			String[] track = next.split("\t");	
-			String artistName = prepString(track[0]);
-			String trackName = prepString(track[1]);
-			Genre genre = Genre.valueOf(track[2]);
+			String artistName = prepString(track[1]);
+			String trackName = prepString(track[2]);
+			Genre genre = null;
+			
+			try{
+				genre = getGenre(track[3]);
+			} catch (IllegalArgumentException e){
+				printExceptionToLogFile(e);
+			}
 				
 			//bg image
 			image(backgrounds.get(genre),0,0);
@@ -153,7 +156,10 @@ public class ThumbnailCreatorViewer extends PApplet{
 			text(trackName,100,135); //title
 			
 			
-			save(outputDir.getAbsolutePath().toString() + "/" + artistName.replaceAll("[^a-zA-Z0-9]","") +"_"+ trackName.replaceAll("[^a-zA-Z0-9]","") + ".png");
+			save(outputDir.getAbsolutePath().toString() + "/" + track[0] + 
+					" - " + artistName.replaceAll("[^a-zA-Z0-9]","") + " - " + 
+					trackName.replaceAll("[^a-zA-Z0-9]","") + "_" + 
+					track[3] + ".png");
 	
 		}
 		
@@ -162,6 +168,9 @@ public class ThumbnailCreatorViewer extends PApplet{
 		
 	}
 	 
+	private Genre getGenre(String str) throws IllegalArgumentException{
+		return Genre.valueOf(str);	
+	}
 	 
 	/**
 	 * Takes a string and adds line breaks if over threshold
@@ -270,10 +279,5 @@ public class ThumbnailCreatorViewer extends PApplet{
 //		}
 //		noLoop();
 //	}
-	
 
-
-		
-	
-	
 }
