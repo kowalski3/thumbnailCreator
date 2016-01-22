@@ -32,7 +32,7 @@ public enum Genre {
 	transparent, //colours from here
 	violet,
 	purple,
-	blu,
+	blue,
 	green,
 	yellow,
 	orange,

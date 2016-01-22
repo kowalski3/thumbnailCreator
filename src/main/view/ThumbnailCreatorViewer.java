@@ -91,23 +91,32 @@ public class ThumbnailCreatorViewer extends PApplet{
 		try{
 			 //init background images
 			 for(File next: bgDir.listFiles()) {
+				 
 				 String absFilePath = next.getAbsolutePath();
+				 System.out.println(absFilePath);
 				 String fileNameSplit = next.getName().substring(0, next.getName().length()-4);
-				 PImage x =  backgrounds.put(Genre.valueOf(fileNameSplit), loadImage(absFilePath));
+				 if (validFile(absFilePath)){
+					 backgrounds.put(Genre.valueOf(fileNameSplit), loadImage(absFilePath));
+				 }
 			 }
 			//init icon images
 			 for(File next: iconDir.listFiles()) {
 				 String absFilePath = next.getAbsolutePath();
+				 
 				 String fileNameSplit = next.getName().substring(0, next.getName().length()-4);
-				 icons.put(Genre.valueOf(fileNameSplit), loadImage(absFilePath));	
+				 if (validFile(absFilePath)){
+					 icons.put(Genre.valueOf(fileNameSplit), loadImage(absFilePath));
+				 }	
 			 }
 		 } catch (IllegalArgumentException e){
 			 System.out.println(e);
 			 printExceptionToLogFile(e);
 		 }
-		 
-
 	 }
+	
+	private boolean validFile(String fileName){
+		return (fileName.endsWith(".png") || fileName.endsWith(".jpg"));
+	}
 	
 	
 	/*-----------------------------------------------------------------------------------------
@@ -123,43 +132,45 @@ public class ThumbnailCreatorViewer extends PApplet{
 		//PImage transparent = backgrounds.get(Genre.valueOf("transparent"));
 		for(String next: tracks){
 			clear();
-			String[] track = next.split("\t");	
-			String artistName = prepString(track[1]);
-			String trackName = prepString(track[2]);
-			Genre genre = null;
-			
-			try{
-				genre = getGenre(track[3]);
-			} catch (IllegalArgumentException e){
-				printExceptionToLogFile(e);
-			}
+			if(! next.isEmpty()){ //protects against empty lines in data file
+				String[] track = next.split("\t");	
+				String artistName = prepString(track[1]);
+				String trackName = prepString(track[2]);
+				Genre genre = null;
 				
-			//bg image
-			image(backgrounds.get(genre),0,0);
-			tint(180,180);
-			//image(transparent ,0,0);
-			//icon
-			PImage icon =icons.get(genre);
-			icon.resize(150, 150);
-			image(icons.get(genre),25,25);
-			
-			textSize(20);
-			fill(0,0,0);
-			text(artistName,102,52); //artist
-			fill(255,255,255);
-			text(artistName,100,50); //artist
-			
-			textSize(24);
-			fill(0,0,0);
-			text(trackName,102,137); //title
-			fill(255,255,255);
-			text(trackName,100,135); //title
-			
-			
-			save(outputDir.getAbsolutePath().toString() + "/" + track[0] + 
-					" - " + artistName.replaceAll("[^a-zA-Z0-9]","") + " - " + 
-					trackName.replaceAll("[^a-zA-Z0-9]","") + "_" + 
-					track[3] + ".png");
+				try{
+					genre = getGenre(track[3]);
+				} catch (IllegalArgumentException e){
+					printExceptionToLogFile(e);
+				}
+					
+				//bg image
+				image(backgrounds.get(genre),0,0);
+				tint(180,180);
+				//image(transparent ,0,0);
+				//icon
+				PImage icon =icons.get(genre);
+				//icon.resize(150, 150);
+				image(icons.get(genre),0,0);
+				
+				textSize(20);
+				fill(0,0,0);
+				text(artistName,102,52); //artist
+				fill(255,255,255);
+				text(artistName,100,50); //artist
+				
+				textSize(24);
+				fill(0,0,0);
+				text(trackName,102,137); //title
+				fill(255,255,255);
+				text(trackName,100,135); //title
+				
+				
+				save(outputDir.getAbsolutePath().toString() + "/" + track[0] + 
+						" - " + artistName.replaceAll("[^a-zA-Z0-9]","") + " - " + 
+						trackName.replaceAll("[^a-zA-Z0-9]","") + "_" + 
+						track[3] + ".png");
+			}
 	
 		}
 		
