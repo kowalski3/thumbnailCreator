@@ -146,7 +146,7 @@ public class ThumbnailCreatorViewer extends PApplet{
 					
 				//bg image
 				image(backgrounds.get(genre),0,0);
-				tint(180,180);
+				tint(200,200);
 				//image(transparent ,0,0);
 				//icon
 				PImage icon =icons.get(genre);
